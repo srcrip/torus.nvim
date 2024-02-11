@@ -100,13 +100,21 @@ function M.go_to(index)
   local filename = vim.g.torus_files[index]
 
   if filename then
-    vim.cmd(":edit " .. filename)
+    M.go_to_filename(filename)
   end
 end
 
 function M.go_to_filename(filename)
-  vim.cmd(":edit " .. filename)
+  -- If we've already got the file open, switch to it instead of reading
+  local existing = vim.fn.bufnr(filename)
+  if existing ~= -1 then
+    vim.cmd.buffer(existing)
+    return
+  end
+
+  vim.cmd.edit(filename)
 end
+
 
 function M.next()
   local current_index = M.is_saved(utils.buffer_to_path("%"))
