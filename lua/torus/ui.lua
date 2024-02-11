@@ -61,8 +61,6 @@ function M.open_window()
 
   vim.keymap.set("n", "<CR>", function()
     local line = vim.api.nvim_get_current_line()
-
-    vim.api.nvim_win_close(winid, { force = true })
     vim.cmd(":edit " .. line)
   end, { noremap = true, silent = true, buffer = bufnr })
 
@@ -78,6 +76,7 @@ function M.open_window()
       local cache_path = ring.cache_file_path()
       vim.fn.writefile(updated_content, cache_path)
       ring.load_cache_file()
+      vim.api.nvim_win_close(winid, { force = true })
     end,
   })
 
