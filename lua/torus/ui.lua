@@ -61,7 +61,8 @@ function M.open_window()
 
   vim.keymap.set("n", "<CR>", function()
     local line = vim.api.nvim_get_current_line()
-    vim.cmd(":edit " .. line)
+    vim.api.nvim_win_close(winid, { force = true })
+    ring.go_to_filename(line)
   end, { noremap = true, silent = true, buffer = bufnr })
 
 
